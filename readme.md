@@ -98,5 +98,5 @@ To set up a virtual environment for this project, follow these steps:
 ### Conclusion
 
 This project combines Python's Flask framework with OOP principles, allowing for organized, maintainable code that adheres to best practices. The design promotes separation of concerns, ensuring that models, services, and routes are distinct and focused on their responsibilities. This makes it easier to expand the project in the future, whether by adding more features or integrating with a frontend application for visualization and interaction.
-```
+
 
