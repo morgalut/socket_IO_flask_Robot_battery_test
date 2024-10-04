@@ -21,7 +21,23 @@ energy_dashboard/
 ├── robots.db
 
 ```
+### Test
+to test all file
+```
+pytest tests/
+```
 
+```
+pytest --cov=app tests/
+```
+clear files
+```
+pytest --disable-warnings
+```
+to fix file 
+```
+pytest --fixtures
+```
 ### File Descriptions
 
 1. **`app/__init__.py`**:
