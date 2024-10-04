@@ -1,10 +1,11 @@
 from flask import Flask
+from flask_cors import CORS  # Import CORS
 from config import DevelopmentConfig
 from app import socketio
-from app.routes import main as main_blueprint  # Correct import
+from app.routes import main as main_blueprint
 from robot_simulation import create_robot, start_robot_task, run_system_check
-from app.database.models import create_db_engine, init_db  # Import your database setup functions
-import uuid  # Importing the uuid module for generating unique tokens
+from app.database.models import create_db_engine, init_db
+import uuid
 
 def create_app():
     app = Flask(__name__)
@@ -12,8 +13,11 @@ def create_app():
     # Load the configuration from DevelopmentConfig
     app.config.from_object(DevelopmentConfig)
     
+    # Enable CORS for all routes
+    CORS(app)  # Apply CORS to your Flask app
+
     # Avoid re-registering the blueprint if it's already registered
-    if 'main' not in [bp.name for bp in app.blueprints.values()]:
+    if 'main' not in app.blueprints:
         app.register_blueprint(main_blueprint)
 
     return app
@@ -25,7 +29,6 @@ app = create_app()
 engine = create_db_engine()  # Create the database engine
 init_db(engine)  # Initialize the database
 
-# Function to run the robot simulation tasks
 def run_robot_simulation():
     # Generate a unique token
     unique_token = str(uuid.uuid4())  # Generates a random UUID
@@ -49,3 +52,4 @@ if __name__ == '__main__':
     
     # Run the app using socketio for WebSocket support
     socketio.run(app, debug=True)
+
