@@ -7,12 +7,13 @@ main = Blueprint('main', __name__)
 def index():
     return "Welcome to the Energy Dashboard!"
 
+# routes.py
 @main.route('/fleet/status', methods=['GET'])
 def fleet_status():
-    """Returns the current status of the robot fleet."""
-    robots = EnergyService.get_all_robots()
+    robots = EnergyService.get_all_robots() or []  # Ensure robots is always a list
     status = EnergyService.get_fleet_status(robots)
     return jsonify(status)
+
 
 @main.route('/fleet/simulate', methods=['POST'])
 def simulate_consumption():
@@ -37,3 +38,17 @@ def add_robot_route():
     else:
         return jsonify({"error": "Failed to add robot"}), 400
 
+
+@main.route('/fleet/add_category', methods=['POST'])
+def add_category_route():
+    """Adds a new category to the fleet."""
+    data = request.get_json()
+    category_name = data.get('category_name')
+    robot_id = data.get('robot_id')
+
+    # Add category to the database
+    new_category = EnergyService.add_category(category_name=category_name, robot_id=robot_id)
+    if new_category:
+        return jsonify({"message": "Category added successfully", "category_name": new_category.name}), 201
+    else:
+        return jsonify({"message": "Failed to add category"}), 400

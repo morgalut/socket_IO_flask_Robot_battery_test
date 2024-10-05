@@ -1,5 +1,5 @@
 from flask_socketio import SocketIO
-from energy_dashboard.app.services import EnergyService
+from .services import EnergyService
 from . import create_app
 
 app = create_app()
